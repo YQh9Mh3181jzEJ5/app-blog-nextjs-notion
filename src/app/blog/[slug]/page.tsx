@@ -1,8 +1,19 @@
-import { fetchBySlug, fetchPageBlocks, notion } from "@/app/lib/notion";
+import {
+  fetchBySlug,
+  fetchPageBlocks,
+  fetchPages,
+  notion,
+} from "@/app/lib/notion";
 import bookmarkPlugin from "@notion-render/bookmark-plugin";
 import { NotionRenderer } from "@notion-render/client";
 import hljsPlugin from "@notion-render/hljs-plugin";
 
+export async function generateStaticParams() {
+  const posts = await fetchPages();
+  return posts.results.map((post: any) => ({
+    slug: post.properties.slug?.rich_text?.[0]?.plain_text || post.id,
+  }));
+}
 export default async function Page({ params }: { params: { slug: string } }) {
   const post = await fetchBySlug(params.slug);
   if (!post) {
