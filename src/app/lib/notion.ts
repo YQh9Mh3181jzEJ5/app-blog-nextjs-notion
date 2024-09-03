@@ -10,20 +10,7 @@ export const notion = new Client({
   auth: process.env.NOTION_TOKEN,
 });
 
-// export const fetchPages = React.cache(() => {
-//   return notion.databases.query({
-//     database_id: process.env.NOTION_DATABASE_ID!,
-//     filter: {
-//       property: "Status",
-//       select: {
-//         equals: "Live",
-//       },
-//     },
-//   });
-// });
 export const fetchPages = React.cache(async () => {
-  console.log("NOTION_DATABASE_ID:", process.env.NOTION_DATABASE_ID);
-  console.log("NOTION_TOKEN:", process.env.NOTION_TOKEN);
   try {
     const response = await notion.databases.query({
       database_id: process.env.NOTION_DATABASE_ID!,
